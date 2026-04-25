@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Connect 4 - The classic strategy game">
+    <meta name="theme-color" content="#FF6B6B">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Connect 4</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="screen active">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <h1 class="loading-title">Connect 4</h1>
+                <p class="loading-text">Loading...</p>
+            </div>
+        </div>
+
+        <!-- Main Menu -->
+        <div id="menu-screen" class="screen">
+            <header class="header">
+                <div class="header-brand">
+                    <div class="brand-icon"></div>
+                    <span>Connect 4</span>
+                </div>
+                <div class="header-user">
+                    <span id="header-username">Player</span>
+                </div>
+            </header>
+
+            <main class="menu-content">
+                <div class="welcome-box">
+                    <h2 class="welcome-text">Welcome, <span id="welcome-username">Player</span>!</h2>
+                    <div class="stats-row">
+                        <div class="stat-item">
+                            <div class="stat-value" id="menu-wins">0</div>
+                            <div class="stat-label">Wins</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="menu-games">0</div>
+                            <div class="stat-label">Games</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="menu-achievements">0</div>
+                            <div class="stat-label">Achievements</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-buttons">
+                    <button class="menu-btn primary" data-screen="mode-select">
+                        <svg class="menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polygon points="10 8 16 12 10 16 10 8"/>
+                        </svg>
+                        <div class="menu-btn-text">
+                            <span class="menu-btn-title">Play Game</span>
+                            <span class="menu-btn-desc">Start a new match</span>
+                        </div>
+                    </button>
+                    
+                    <button class="menu-btn" data-screen="stats">
+                        <svg class="menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 3v18h18"/>
+                            <path d="M18 17V9"/>
+                            <path d="M13 17V5"/>
+                            <path d="M8 17v-3"/>
+                        </svg>
+                        <div class="menu-btn-text">
+                            <span class="menu-btn-title">Statistics</span>
+                            <span class="menu-btn-desc">View your progress</span>
+                        </div>
+                    </button>
+                    
+                    <button class="menu-btn" data-screen="achievements">
+                        <svg class="menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+                            <path d="M4 22h16"/>
+                            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+                            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+                            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+                        </svg>
+                        <div class="menu-btn-text">
+                            <span class="menu-btn-title">Achievements</span>
+                            <span class="menu-btn-desc">50 to unlock</span>
+                        </div>
+                    </button>
+                    
+                    <button class="menu-btn" data-screen="settings">
+                        <svg class="menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                        </svg>
+                        <div class="menu-btn-text">
+                            <span class="menu-btn-title">Settings</span>
+                            <span class="menu-btn-desc">Themes & options</span>
+                        </div>
+                    </button>
+                    
+                    <button class="menu-btn" data-screen="help">
+                        <svg class="menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                        <div class="menu-btn-text">
+                            <span class="menu-btn-title">How to Play</span>
+                            <span class="menu-btn-desc">Learn the rules</span>
+                        </div>
+                    </button>
+                </div>
+            </main>
+        </div>
+
+        <!-- Mode Select -->
+        <div id="mode-select-screen" class="screen">
+            <header class="header">
+                <button class="back-btn" data-screen="menu">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    <span>Back</span>
+                </button>
+                <div class="header-title">Select Mode</div>
+                <div class="header-spacer"></div>
+            </header>
+
+            <main class="select-content">
+                <div class="mode-options">
+                    <button class="mode-btn" data-mode="local">
+                        <svg class="mode-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                        <div class="mode-info">
+                            <h3 class="mode-title">2 Players</h3>
+                            <p class="mode-desc">Play with a friend locally</p>
+                        </div>
+                        <div class="mode-tag">Local</div>
+                    </button>
+                    
+                    <button class="mode-btn" data-mode="ai">
+                        <svg class="mode-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/>
+                            <rect x="9" y="9" width="6" height="6"/>
+                            <line x1="9" y1="1" x2="9" y2="4"/>
+                            <line x1="15" y1="1" x2="15" y2="4"/>
+                            <line x1="9" y1="20" x2="9" y2="23"/>
+                            <line x1="15" y1="20" x2="15" y2="23"/>
+                            <line x1="20" y1="9" x2="23" y2="9"/>
+                            <line x1="20" y1="14" x2="23" y2="14"/>
+                            <line x1="1" y1="9" x2="4" y2="9"/>
+                            <line x1="1" y1="14" x2="4" y2="14"/>
+                        </svg>
+                        <div class="mode-info">
+                            <h3 class="mode-title">vs Computer</h3>
+                            <p class="mode-desc">Challenge the AI</p>
+                        </div>
+                        <div class="mode-tag">Solo</div>
+                    </button>
+                </div>
+            </main>
+        </div>
+
+        <!-- Difficulty Select -->
+        <div id="difficulty-screen" class="screen">
+            <header class="header">
+                <button class="back-btn" data-screen="mode-select">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    <span>Back</span>
+                </button>
+                <div class="header-title">Select Difficulty</div>
+                <div class="header-spacer"></div>
+            </header>
+
+            <main class="select-content">
+                <div class="difficulty-options">
+                    <button class="difficulty-btn" data-difficulty="easy">
+                        <div class="diff-badge easy">1</div>
+                        <div class="diff-info">
+                            <h3 class="diff-title">Easy</h3>
+                            <p class="diff-desc">Perfect for beginners</p>
+                        </div>
+                        <div class="diff-stars">★</div>
+                    </button>
+                    
+                    <button class="difficulty-btn" data-difficulty="medium">
+                        <div class="diff-badge medium">2</div>
+                        <div class="diff-info">
+                            <h3 class="diff-title">Medium</h3>
+                            <p class="diff-desc">A fair challenge</p>
+                        </div>
+                        <div class="diff-stars">★★</div>
+                    </button>
+                    
+                    <button class="difficulty-btn" data-difficulty="hard">
+                        <div class="diff-badge hard">3</div>
+                        <div class="diff-info">
+                            <h3 class="diff-title">Hard</h3>
+                            <p class="diff-desc">For experienced players</p>
+                        </div>
+                        <div class="diff-stars">★★★</div>
+                    </button>
+                    
+                    <button class="difficulty-btn" data-difficulty="expert">
+                        <div class="diff-badge expert">4</div>
+                        <div class="diff-info">
+                            <h3 class="diff-title">Expert</h3>
+                            <p class="diff-desc">Nearly impossible</p>
+                        </div>
+                        <div class="diff-stars">★★★★</div>
+                    </button>
+                </div>
+            </main>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen">
+            <header class="header game-header">
+                <button class="back-btn" id="quit-game-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    <span>Quit</span>
+                </button>
+                <div class="turn-display">
+                    <div class="turn-piece" id="turn-indicator"></div>
+                    <span class="turn-text" id="turn-text">Red's Turn</span>
+                </div>
+                <button class="btn btn-small" id="restart-game-btn">Restart</button>
+            </header>
+
+            <main class="game-content">
+                <div class="game-area">
+                    <div class="board-container">
+                        <div class="drop-zone" id="drop-zone"></div>
+                        <div class="board" id="game-board"></div>
+                    </div>
+                    
+                    <div class="game-info">
+                        <div class="info-card">
+                            <div class="info-label">Moves</div>
+                            <div class="info-value" id="move-counter">0</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label">Time</div>
+                            <div class="info-value" id="game-timer">0:00</div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Game Over Modal -->
+        <div id="game-over-modal" class="modal">
+            <div class="modal-backdrop"></div>
+            <div class="modal-content game-over-modal">
+                <div class="confetti-container" id="confetti-container"></div>
+                
+                <div class="game-result">
+                    <div class="result-piece" id="result-piece"></div>
+                    <h2 class="result-title" id="result-title">You Win!</h2>
+                    <p class="result-subtitle" id="result-subtitle">Great game!</p>
+                </div>
+                
+                <div class="result-stats">
+                    <div class="result-stat">
+                        <div class="result-stat-value" id="result-moves">0</div>
+                        <div class="result-stat-label">Moves</div>
+                    </div>
+                    <div class="result-stat">
+                        <div class="result-stat-value" id="result-time">0:00</div>
+                        <div class="result-stat-label">Time</div>
+                    </div>
+                </div>
+                
+                <div class="result-actions">
+                    <button class="btn btn-primary btn-block" id="play-again-btn">Play Again</button>
+                    <button class="btn btn-secondary btn-block" id="back-to-menu-btn">Main Menu</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Screen -->
+        <div id="stats-screen" class="screen">
+            <header class="header">
+                <button class="back-btn" data-screen="menu">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    <span>Back</span>
+                </button>
+                <div class="header-title">Statistics</div>
+                <div class="header-spacer"></div>
+            </header>
+
+            <main class="stats-content">
+                <div class="stats-grid">
+                    <div class="stats-card featured">
+                        <svg class="stats-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="7" width="20" height="15" rx="2" ry="2"/>
+                            <polyline points="17 2 12 7 7 2"/>
+                        </svg>
+                        <div class="stats-card-value" id="stats-games">0</div>
+                        <div class="stats-card-label">Games Played</div>
+                    </div>
+                    <div class="stats-card">
+                        <svg class="stats-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+                            <path d="M4 22h16"/>
+                            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+                            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+                            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+                        </svg>
+                        <div class="stats-card-value" id="stats-wins">0</div>
+                        <div class="stats-card-label">Wins</div>
+                    </div>
+                    <div class="stats-card">
+                        <svg class="stats-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="15" y1="9" x2="9" y2="15"/>
+                            <line x1="9" y1="9" x2="15" y2="15"/>
+                        </svg>
+                        <div class="stats-card-value" id="stats-losses">0</div>
+                        <div class="stats-card-label">Losses</div>
+                    </div>
+                    <div class="stats-card">
+                        <svg class="stats-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                        <div class="stats-card-value" id="stats-draws">0</div>
+                        <div class="stats-card-label">Draws</div>
+                    </div>
+                    <div class="stats-card">
+                        <svg class="stats-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                            <polyline points="17 6 23 6 23 12"/>
+                        </svg>
+                        <div class="stats-card-value" id="stats-winrate">0%</div>
+                        <div class="stats-card-label">Win Rate</div>
+                    </div>
+                    <div class="stats-card">
+                        <svg class="stats-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+                        </svg>
+                        <div class="stats-card-value" id="stats-streak">0</div>
+                        <div class="stats-card-label">Best Streak</div>
+                    </div>
+                    <div class="stats-card">
+                        <svg class="stats-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        </svg>
+                        <div class="stats-card-value" id="stats-fastest">--</div>
+                        <div class="stats-card-label">Fastest Win</div>
+                    </div>
+                    <div class="stats-card">
+                        <svg class="stats-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        <div class="stats-card-value" id="stats-moves">0</div>
+                        <div class="stats-card-label">Total Moves</div>
+                    </div>
+                </div>
+
+                <div class="stats-section">
+                    <h3 class="stats-section-title">AI Victories</h3>
+                    <div class="ai-stats-grid">
+                        <div class="ai-stat-item">
+                            <div class="ai-stat-label">Easy</div>
+                            <div class="ai-stat-value" id="ai-wins-easy">0</div>
+                        </div>
+                        <div class="ai-stat-item">
+                            <div class="ai-stat-label">Medium</div>
+                            <div class="ai-stat-value" id="ai-wins-medium">0</div>
+                        </div>
+                        <div class="ai-stat-item">
+                            <div class="ai-stat-label">Hard</div>
+                            <div class="ai-stat-value" id="ai-wins-hard">0</div>
+                        </div>
+                        <div class="ai-stat-item">
+                            <div class="ai-stat-label">Expert</div>
+                            <div class="ai-stat-value" id="ai-wins-expert">0</div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Achievements Screen -->
+        <div id="achievements-screen" class="screen">
+            <header class="header">
+                <button class="back-btn" data-screen="menu">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    <span>Back</span>
+                </button>
+                <div class="header-title">Achievements</div>
+                <div class="header-spacer"></div>
+            </header>
+
+            <main class="achievements-content">
+                <div class="achievements-header">
+                    <div class="achievements-count">
+                        <span class="count-number" id="achievements-unlocked">0</span>
+                        <span class="count-total">/ 50 Unlocked</span>
+                    </div>
+                    <div class="achievements-filters">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="unlocked">Unlocked</button>
+                        <button class="filter-btn" data-filter="locked">Locked</button>
+                    </div>
+                </div>
+
+                <div class="achievements-list" id="achievements-list"></div>
+            </main>
+        </div>
+
+        <!-- Settings Screen -->
+        <div id="settings-screen" class="screen">
+            <header class="header">
+                <button class="back-btn" data-screen="menu">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    <span>Back</span>
+                </button>
+                <div class="header-title">Settings</div>
+                <div class="header-spacer"></div>
+            </header>
+
+            <main class="settings-content">
+                <div class="settings-section">
+                    <h3 class="settings-section-title">Theme</h3>
+                    <div class="theme-options" id="theme-options"></div>
+                </div>
+
+                <div class="settings-section">
+                    <h3 class="settings-section-title">Preferences</h3>
+                    <div class="settings-list">
+                        <div class="setting-item">
+                            <span class="setting-label">Sound Effects</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="sound-toggle" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <span class="setting-label">Animations</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="animations-toggle" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section danger">
+                    <h3 class="settings-section-title">Data</h3>
+                    <div class="settings-list">
+                        <button class="btn btn-danger btn-block" id="reset-stats-btn">Reset Statistics</button>
+                        <button class="btn btn-danger btn-block" id="reset-all-btn">Reset All Data</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Help Screen -->
+        <div id="help-screen" class="screen">
+            <header class="header">
+                <button class="back-btn" data-screen="menu">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    <span>Back</span>
+                </button>
+                <div class="header-title">How to Play</div>
+                <div class="header-spacer"></div>
+            </header>
+
+            <main class="help-content">
+                <div class="help-card">
+                    <svg class="help-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <circle cx="12" cy="12" r="6"/>
+                        <circle cx="12" cy="12" r="2"/>
+                    </svg>
+                    <h3 class="help-title">Objective</h3>
+                    <p class="help-text">Connect 4 of your pieces in a row - horizontally, vertically, or diagonally - to win!</p>
+                </div>
+
+                <div class="help-card">
+                    <svg class="help-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="7" width="20" height="15" rx="2" ry="2"/>
+                        <polyline points="17 2 12 7 7 2"/>
+                    </svg>
+                    <h3 class="help-title">How to Play</h3>
+                    <ul class="help-list">
+                        <li>Tap a column to drop your piece</li>
+                        <li>Pieces fall to the lowest empty spot</li>
+                        <li>Red always goes first</li>
+                        <li>Take turns with your opponent</li>
+                    </ul>
+                </div>
+
+                <div class="help-card">
+                    <svg class="help-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="16" x2="12" y2="12"/>
+                        <line x1="12" y1="8" x2="12.01" y2="8"/>
+                    </svg>
+                    <h3 class="help-title">Tips</h3>
+                    <ul class="help-list">
+                        <li>Control the center column</li>
+                        <li>Create multiple winning threats</li>
+                        <li>Block your opponent's lines</li>
+                        <li>Plan several moves ahead</li>
+                    </ul>
+                </div>
+            </main>
+        </div>
+
+        <!-- Achievement Notification -->
+        <div id="achievement-toast" class="achievement-toast">
+            <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+                <path d="M4 22h16"/>
+                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+                <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+            </svg>
+            <div class="toast-content">
+                <div class="toast-label">Achievement Unlocked!</div>
+                <div class="toast-name" id="toast-achievement-name">Achievement</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
